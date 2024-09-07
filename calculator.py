@@ -1,7 +1,21 @@
 from tkinter import * 
 
 # Classes
+
 class TextLabel:
+  """
+  A class that encapsulates the creation of a Label widget with customizable properties.
+
+  Attributes:
+      screen: The parent widget (usually a window or frame) where the label will be placed.
+      label_text: The text to be displayed on the label.
+      font_family: The font family for the label text.
+      font_size: The size of the font for the label text.
+      fg_colour: The foreground color of the label text.
+      bg_colour: The background color of the label.
+      photo_image: An optional image to be displayed on the label.
+      kwargs: Additional keyword arguments for the label widget.
+  """
   def __init__(self, screen, label_text, font_family, font_size, fg_colour="#333333", bg_colour="#e6e6fa", photo_image=None, **kwargs):
     self.text_label = Label(screen,
                             text=label_text,
@@ -11,21 +25,42 @@ class TextLabel:
                             image=photo_image,
                             **kwargs)
     
+  # Returns the label widget
   def get_label(self):
     return self.text_label
     
     
 class MainFrame:
+  """
+  A class that encapsulates the creation of a Frame widget with customizable properties.
+
+  Attributes:
+      screen: The parent widget (usually a window) where the frame will be placed.
+      bg_colour: The background color of the frame.
+      kwargs: Additional keyword arguments for the frame widget.
+  """
   def __init__(self, screen, bg_colour="#e6e6fa", **kwargs):
     self.main_frame = Frame(screen,
                             bg=bg_colour,
                             **kwargs)
     
+  # Returns the frame widget
   def get_frame(self):
     return self.main_frame
 
 
 class DisplayEntry:
+  """
+  A class that encapsulates the creation of an Entry widget with customizable properties.
+
+  Attributes:
+      screen: The parent widget (usually a frame) where the entry widget will be placed.
+      font_family: The font family for the entry text.
+      font_size: The size of the font for the entry text.
+      fg_colour: The foreground color of the entry text.
+      bg_colour: The background color of the entry widget.
+      kwargs: Additional keyword arguments for the entry widget.
+  """
   def __init__(self, screen, font_family, font_size, fg_colour="#333333", bg_colour="#e6e6fa", **kwargs):
     self.display_entry = Entry(screen,
                               font=(font_family, font_size),
@@ -33,12 +68,28 @@ class DisplayEntry:
                               bg=bg_colour,
                               disabledbackground="#cce0ff",
                               **kwargs)
-                        
+   
+  # Returns the entry widget
   def get_entry(self):
     return self.display_entry
     
     
 class CalcButton:
+  """
+  A class that encapsulates the creation of a Button widget with customizable properties.
+
+  Attributes:
+      screen: The parent widget (usually a frame) where the button will be placed.
+      button_text: The text to be displayed on the button.
+      font_family: The font family for the button text.
+      font_size: The size of the font for the button text.
+      fg_colour: The foreground color of the button text.
+      bg_colour: The background color of the button.
+      active_bg: The background color when the button is active.
+      active_fg: The foreground color when the button is active.
+      btn_width: The width of the button.
+      kwargs: Additional keyword arguments for the button widget.
+  """
   def __init__(self, screen, button_text, font_family="Arial", font_size=18, fg_colour="#FFFFFF", bg_colour="#4d94ff", active_bg="#4d94ff", active_fg="#FFFFFF", btn_width=3, **kwargs):
     self.calc_button = Button(screen,
                               text=button_text,
@@ -50,20 +101,37 @@ class CalcButton:
                               width=btn_width,
                               **kwargs)
     
+  # Returns the button widget
   def get_button(self):
     return self.calc_button
   
   
 class ButtonController:
+  """
+  A class that handles the functionality of calculator buttons including display, result calculation, and clearing the entry.
+
+  Attributes:
+      entry_widget: The Entry widget where the calculator input and results are displayed.
+  """
   def __init__(self, entry_widget):
     self.display_entry = entry_widget
     self.display_entry.config(state=DISABLED)
     
   def display(self, button_text):
+    """
+    Inserts the given button_text into the entry widget.
+
+    Args:
+        button_text: The text to be inserted into the entry widget.
+    """
     self.display_entry.config(state=NORMAL)
     self.display_entry.insert("end", button_text)
     
   def result(self):
+    """
+    Evaluates the expression in the entry widget and displays the result.
+    Handles ZeroDivisionError and other exceptions with appropriate messages.
+    """
     try:
       self.display_entry.config(state=NORMAL)
       expression = self.display_entry.get().strip()
@@ -73,7 +141,7 @@ class ButtonController:
       
     except ZeroDivisionError:
       self.display_entry.delete(0, END)
-      self.display_entry.insert("end", "Can't divide by zero!")
+      self.display_entry.insert("end", "ERROR: Can't divide by zero!")
     
     except Exception as e:
       self.display_entry.delete(0, END)
@@ -85,7 +153,7 @@ class ButtonController:
       
   
 def main():
-  # Initialising a window
+  # Initialize the main window
   window = Tk()
   window.title("CALCULATOR")
   window.geometry("600x600")
@@ -208,7 +276,7 @@ def main():
                               command=btn_controller.clear).get_button()
   calc_btn_clear.grid(row=5, column=0, columnspan=4, sticky="ew", padx=5, pady=5)
 
-  # Running the main loop
+  # Run the the main loop of the application
   window.mainloop()
   
   
