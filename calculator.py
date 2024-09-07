@@ -141,7 +141,7 @@ class ButtonController:
       
     except ZeroDivisionError:
       self.display_entry.delete(0, END)
-      self.display_entry.insert("end", "ERROR: Can't divide by zero!")
+      self.display_entry.insert("end", "Can't divide by zero!")
     
     except Exception as e:
       self.display_entry.delete(0, END)
